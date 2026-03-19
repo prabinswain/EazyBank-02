@@ -1,0 +1,11 @@
+
+JSON value to add or update a new Card
+{
+    "mobileNumber" : "9853801349",
+    "cardNumber" :"100107091026",
+    "cardType" : "Cresdit Card",
+    "totalLimit":100000,
+    "amountUsed":0,
+    "availableAmount":100000
+
+}

@@ -1,0 +1,45 @@
+https://github.com/eazybytes/microservices/tree/4.0.0/section2/ - github link for section 2
+
+How to make setup
+=================
+1. Download docker desktop and make setup
+2. make "mvn clean install" -> will generate jar
+3. Create a new file name as Dockerfile and write instruction
+        ex:-
+        FROM eclipse-temurin:21
+        #Information around who maintains the image
+        MAINTAINER com.google.com
+        #Add application's jar to the image
+        COPY target/accounts-0.0.1-SNAPSHOT.jar  accounts-0.0.1-SNAPSHOT.jar
+
+        # execute the application
+        ENTRYPOINT ["java","-jar","accounts-0.0.1-SNAPSHOT.jar"]
+3. Then "docker version" -> to check docker details
+4. Create docker image by
+        "docker build . -t prabinswain027/accounts:s4"
+        it says use my Dockerfile and read the instruction and generate a docker image from
+        base image of docker from remote repository.
+5. "docker images" to check all the docker images
+6. "doceker inspect image imageID" all details
+
+Generate Container from docker image
+======================================
+1. "docker run -p 8080:8080 prabinswain027/accounts:s4" --> it stope the terminal to run any other command
+    so we can use this command
+    "docker run -d -p 8080:8080 prabinswain027/accounts:s4"
+    -p = isolated ports default so we need to mention port
+    8080 first = outside docker network
+    8080 second = start my docker container
+    -d = run in a deteached mode
+2. "docker ps" --- > all existing running contrainer
+3. "docekr ps -a" --> all container that stopped
+4. "docker start containerId" --> to start the container
+5. "docker stop containerId" --> to stop the container
+
+
+Q1 What is port mapping/ port forwarding / port publishing
+==
+By default, containers are connected to a isolated network within the Docker host. To access a container from
+local network to configure port mapping explictly. For instance, when running the accounts the account service
+application, we can proviee the port mapping as an argument in the docker run command: -p 8081:8080
+( 1st represents external port and 2nd port represents container port).

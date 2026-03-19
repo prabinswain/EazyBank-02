@@ -1,0 +1,26 @@
+This will be use build pack
+so we not need to write any docker file
+
+
+Steps
+====
+Add configuration in pom file inside spring boot plugin
+    <plugins>
+
+    			<plugin>
+    				<groupId>org.apache.maven.plugins</groupId>
+    				<artifactId>maven-compiler-plugin</artifactId>
+    			</plugin>
+
+    			<plugin>
+    				<groupId>org.springframework.boot</groupId>
+    				<artifactId>spring-boot-maven-plugin</artifactId>
+            // this is for to create docker image
+    				<configuration>
+    					<image>
+    						<name>prabinswain027/${project.artifactId}:s4</name>
+    					</image>
+    				</configuration>
+    			</plugin>
+
+    		</plugins>
