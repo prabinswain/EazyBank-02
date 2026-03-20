@@ -1,5 +1,6 @@
 package com.bank.Accounts;
 
+import com.bank.Accounts.dto.AccountsContactInfoDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -7,6 +8,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 // to implement Documentation in swagger using @OpenAPIDefinition
@@ -32,7 +34,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 )
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl") // to implement auditing propose and to take the user from client
 @SpringBootApplication
-
+@EnableConfigurationProperties(value = {AccountsContactInfoDto.class}) // to enable a class as a configuration properties
 public class AccountsApplication {
 
 	public static void main(String[] args) {

@@ -2,6 +2,7 @@ package com.bank.Accounts.controller;
 
 
 import com.bank.Accounts.constants.AccountsConstans;
+import com.bank.Accounts.dto.AccountsContactInfoDto;
 import com.bank.Accounts.dto.CustomerDto;
 import com.bank.Accounts.dto.ErrorResponseDto;
 import com.bank.Accounts.dto.ResponseDto;
@@ -17,6 +18,7 @@ import jakarta.validation.constraints.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,12 +37,16 @@ import org.springframework.web.bind.annotation.*;
         name = "CRUD REST APIs for Accounts in EazyBank",
         description = "CRUD REST APIs for Accounts in EazyBank to CREATE, UPDATE, FETCH AND DELETE Details"
 )
+
+
 public class AccountController {
 
     private final IAccountService accountService;
+    private final AccountsContactInfoDto accountsContactInfoDto;
 
-    public AccountController(IAccountService accountService) {
+    public AccountController(IAccountService accountService, AccountsContactInfoDto accountsContactInfoDto) {
         this.accountService = accountService;
+        this.accountsContactInfoDto = accountsContactInfoDto;
     }
 
     @Value("${build.version}")
@@ -185,5 +191,25 @@ public class AccountController {
     @GetMapping("/java-version")
     public ResponseEntity<String> getJavaVersion(){
         return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
+    }
+    @Operation(
+            summary = "Get Contact information",
+            description = "Get Contact information that can be reached incase of any issue"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",description ="Http Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500", description = "Http status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/contact-info")
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(accountsContactInfoDto);
     }
 }
