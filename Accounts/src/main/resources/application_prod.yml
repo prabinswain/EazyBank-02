@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+build:
+  version: "1.0"
+
+accounts:
+  message: "Welcome to EazyBank accounts related PROD APIs"
+  contactDetails:
+    name: "Deepak - PROD lead"
+    email: "Deepak@gmail.com"
+  onCallSupport:
+    - "(+91) 8249883682"
+    - "(+91) 0000000000"

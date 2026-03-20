@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "2.0"
+
+accounts:
+  message: "Welcome to EazyBank accounts related QA APIs"
+  contactDetails:
+    name: "Alok - QA lead"
+    email: "alok@gmail.com"
+  onCallSupport:
+    - "(+91) 7538070689"
+    - "(+91) 0000000000"

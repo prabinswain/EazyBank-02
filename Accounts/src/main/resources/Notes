@@ -1,0 +1,53 @@
+How to setup diff diff properties value in diff environment?
+
+By profiles..
+we will use profiles.
+
+we can creatre application_qa.yml, application_prod.properties
+
+we can set spring.profiles.active=prod,qa like this .
+
+At first we need to understand which all configuration and properties changes when we chnage the environment
+then we can decide which config should be inside default properties file or which one should be inside specific one
+
+
+we need to tell spring boot , when qa asks in default then this yml should call
+spring:
+  config:
+    activate:
+      on-profile:"qa"
+
+spring:
+  config:
+    activate:
+      on-profile:"prod"
+
+then we have to tell in default properties to import the application_qa.yml and application_prod.yml
+we can mention in default as follows
+
+spring:
+  config:
+    import:
+      - "application_qa.yml"
+      - "application_prod.yml"
+  profiles:
+    active:
+      - "qa"
+then we need to mention which profile to start in default properties file.
+
+
+we need to mannualy change in default config files when we change the environment, so it will not recommeded to change and it will not fesiable solution to do so.
+Then we need to externalize the configurations using command line runner.
+
+Spring boot automatically converts key and value pairs and it has highest preference
+
+we need to follow --build.version=1.1
+
+JVM system properties has less prefernce but highest preference trhen Environment
+                -Dbuild.version=2.2
+Environment variables are unversal support
+    - all lettter as uppere case
+    - all dots(.) should be under_score(_)
+    BUILD_VERSION=1.1
+
+
