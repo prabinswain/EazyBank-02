@@ -2,6 +2,7 @@ package com.loans.controller;
 
 import com.loans.constants.LoansConstants;
 import com.loans.dto.ErrorResponseDto;
+import com.loans.dto.LoansContactInformationDto;
 import com.loans.dto.LoansDto;
 import com.loans.dto.ResponseDto;
 import com.loans.entity.Loans;
@@ -16,6 +17,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +32,24 @@ import org.springframework.web.bind.annotation.*;
 )
 @RestController
 @RequestMapping(value = "/api" , produces = {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
+//@AllArgsConstructor
 @Validated
 public class LoansController {
 
-    private ILoansService loansService;
+    private final ILoansService loansService;
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @Autowired
+    private Environment environment;
+
+    @Autowired
+    private LoansContactInformationDto loansContactInformationDto;
+
+    public LoansController(ILoansService loansService) {
+        this.loansService = loansService;
+    }
 
 
     @Operation(
@@ -172,5 +189,36 @@ public class LoansController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(LoansConstants.STATUS_417, LoansConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @Operation(summary = "To get Build Information", description = "To get build information of deployed Loans Application")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Http status code OK"),
+            @ApiResponse(responseCode = "500", description = "INternal Server error",
+            content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+    })
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInformation(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(buildVersion);
+    }
+
+
+    @Operation(summary = "To get Java Information", description = "To get Java information of deployed Loans Application")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Http status code OK"),
+            @ApiResponse(responseCode = "500", description = "INternal Server error",
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
+    })
+    @GetMapping("/java-info")
+    public ResponseEntity<String> getJavaInformation(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(environment.getProperty("JAVA_HOME"));
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<LoansContactInformationDto> getContactInformation(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(loansContactInformationDto);
     }
 }

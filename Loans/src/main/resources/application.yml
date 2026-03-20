@@ -14,3 +14,22 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  config:
+    import:
+      - "application_qa.yml"
+      - "application_prod.yml"
+  profiles:
+    active:
+      - "prod"
+
+build:
+  version: "1.1"
+
+loans:
+  message: "Welcome to EazyBank cards related local APIs"
+  contactDetails:
+    name: "Darshan - Lead"
+    email: "darshan@gmail.com"
+  onCallSupport:
+    - "(+91) 9853801349"
+    - "(+91) 9853801349"

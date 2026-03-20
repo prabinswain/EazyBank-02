@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+build:
+  version: "2.1"
+loans:
+  message: "Welcome to EazyBank cards related prod APIs"
+  contactDetails:
+    name: "Deepak - Lead Developer"
+    email: "deepak@gmail.com"
+  onCallSupport:
+    - "(+91) 9853801349"
+    - "(+91) 9853801349"

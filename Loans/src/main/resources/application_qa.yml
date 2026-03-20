@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+build:
+  version: "2.1"
+loans:
+  message: "Welcome to EazyBank cards related QA APIs"
+  contactDetails:
+    name: "Prashant - Lead QA Developer"
+    email: "prashant@gmail.com"
+  onCallSupport:
+    - "(+91) 8908526545"
+    - "(+91) 8908526545"
