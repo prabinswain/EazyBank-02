@@ -3,7 +3,7 @@ package com.bank.Accounts.controller;
 
 import com.bank.Accounts.constants.AccountsConstans;
 import com.bank.Accounts.dto.CustomerDto;
-import com.bank.Accounts.dto.ErrorRespinseDto;
+import com.bank.Accounts.dto.ErrorResponseDto;
 import com.bank.Accounts.dto.ResponseDto;
 import com.bank.Accounts.service.IAccountService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +14,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +29,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController  // @Controller + @ResponseBody = for returning JSON and XML data
 @RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 //@RequestMapping(path = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor
 @Validated
 // to implement openAPI specification
 @Tag(
@@ -35,7 +37,17 @@ import org.springframework.web.bind.annotation.*;
 )
 public class AccountController {
 
-    private IAccountService accountService;
+    private final IAccountService accountService;
+
+    public AccountController(IAccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @Autowired
+    private Environment environment;
 
     @Operation(
             summary = "Create Account REST API",
@@ -84,7 +96,7 @@ public class AccountController {
                     responseCode = "500",
                     description = "Http Status INTERNAL_SERVER_ERROR",
                     content = @Content(
-                            schema = @Schema(implementation = ErrorRespinseDto.class)
+                            schema = @Schema(implementation = ErrorResponseDto.class)
                     )
             )}
 
@@ -131,5 +143,47 @@ public class AccountController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDto(AccountsConstans.STATUS_500, AccountsConstans.MESSAGE_500));
         }
+    }
+
+    @Operation(
+            summary = "Get build information",
+            description = "Get build information that is deployed into account microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",description ="Http Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500", description = "Http status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+    }
+
+    @Operation(
+            summary = "Get Java information",
+            description = "Get build Java that is deployed into account microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",description ="Http Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500", description = "Http status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/java-version")
+    public ResponseEntity<String> getJavaVersion(){
+        return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
     }
 }

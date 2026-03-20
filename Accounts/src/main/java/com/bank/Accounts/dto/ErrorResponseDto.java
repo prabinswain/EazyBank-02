@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Schema(name="Error response ",description = "Schema hold Error response information")
 @Data @AllArgsConstructor
-public class ErrorRespinseDto {
+public class ErrorResponseDto {
 
     @Schema(description = "API path invocked by client")
     private String apiPath;

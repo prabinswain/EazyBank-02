@@ -91,19 +91,28 @@
 	<build>
 		<plugins>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
+
+			<!--                    commenting as we are going with google jib -->
+
+			<!--                <groupId>org.apache.maven.plugins</groupId>-->
+			<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+			<!--            </plugin>-->
+
+			<!--            <plugin>-->
+			<!--                <groupId>org.springframework.boot</groupId>-->
+			<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+			<!--            </plugin>-->
 
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.2</version>
 				<configuration>
-					<image>
-						<name>prabinswain027/${project.artifactId}:s4</name>
-					</image>
+					<to>
+						<image>
+							prabinswain027/${project.artifactId}:s6
+						</image>
+					</to>
 				</configuration>
 			</plugin>
 

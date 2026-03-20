@@ -1,6 +1,6 @@
 package com.bank.Accounts.exception;
 
-import com.bank.Accounts.dto.ErrorRespinseDto;
+import com.bank.Accounts.dto.ErrorResponseDto;
 //import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,27 +29,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     @ExceptionHandler(CustomerAlreadyExistException.class) // map the exception to the handler method
-    public ResponseEntity<ErrorRespinseDto> handleCustomerAlreadyExistException(CustomerAlreadyExistException exception , WebRequest webRequest){
+    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistException(CustomerAlreadyExistException exception , WebRequest webRequest){
 
-        ErrorRespinseDto errorRespinseDto = new ErrorRespinseDto(
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
             webRequest.getDescription(false),
             HttpStatus.BAD_REQUEST,
             exception.getMessage(),
             LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorRespinseDto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class) // map the exception to the handler method
-    public ResponseEntity<ErrorRespinseDto> handleResourceNotFoundException(ResourceNotFoundException exception , WebRequest webRequest){
+    public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(ResourceNotFoundException exception , WebRequest webRequest){
 
-        ErrorRespinseDto errorRespinseDto = new ErrorRespinseDto(
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND,
                 exception.getMessage(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorRespinseDto, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
     }
 
 
@@ -71,13 +71,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorRespinseDto> handlerGlobalException( Exception exception, WebRequest webRequest){
-        ErrorRespinseDto errorRespinseDto= new ErrorRespinseDto(
+    public ResponseEntity<ErrorResponseDto> handlerGlobalException(Exception exception, WebRequest webRequest){
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
               webRequest.getDescription(false),
               HttpStatus.INTERNAL_SERVER_ERROR,
               exception.getMessage(),
               LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorRespinseDto, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
